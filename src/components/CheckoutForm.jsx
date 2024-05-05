@@ -8,6 +8,9 @@ import getUrl from "../api";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import QrCodeGenerator from "./QrCodeGenerator";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";  
+import ChatComponent from "./ChatComponent";
 
 export const action =
   (store, queryClient) =>
@@ -67,6 +70,10 @@ export const action =
 
 const CheckoutForm = ({payment}) => {
 
+  const [modal,setModal]=useState();
+  const handleModal=()=>{
+      setModal(!modal)
+  }
    useEffect(()=>{
      if(payment==true)
       {
@@ -81,30 +88,48 @@ const CheckoutForm = ({payment}) => {
           setQrCode(!qrCode)
   }
   return (
-    <Form method="POST" className="flex flex-col gap-y-4">
-      <h4 className="font-medium text-xl capitalize">shipping information</h4>
-      <FormInput label="first name" name="name" type="text" />
-      <FormInput label="address" name="address" type="text" />
-      <div className="mt-4">
-        {valid && (
-          <button className="bg-sky-500 w-full text-white p-2 rounded-md" type="submit">
-            place your order
-          </button>
+    <>
+      <Form method="POST" className="flex flex-col gap-y-4">
+        <h4 className="font-medium text-xl capitalize">shipping information</h4>
+        <FormInput label="first name" name="name" type="text" />
+        <FormInput label="address" name="address" type="text" />
+        <div className="mt-4">
+          {valid && (
+            <button
+              className="bg-sky-500 w-full text-white p-2 rounded-md"
+              type="submit"
+            >
+              place your order
+            </button>
+          )}
+          {!valid && (
+            <button
+              className="bg-sky-500 w-full text-white p-2 rounded-md"
+              type="button"
+              onClick={() => setQrCode(!qrCode)}
+            >
+              Pay now
+            </button>
+          )}
+        </div>
+        {qrCode && !valid && (
+          <QrCodeGenerator handleValue={handleValue}></QrCodeGenerator>
         )}
-        {!valid && (
-          <button
-            className="bg-sky-500 w-full text-white p-2 rounded-md"
-            type="button"
-            onClick={() => setQrCode(!qrCode)}
-          >
-            Pay now
-          </button>
-        )}
+      </Form>
+      <div className="absolute right-20 bottom-0 flex">
+        <div className="relative w-10">
+          <FontAwesomeIcon
+            onClick={handleModal}
+            className="w-10 h-10 text-sky-400"
+            icon={faCommentDots}
+          />{" "}
+        </div>
+        <div>
+          <sup className="">ask Seller</sup>
+        </div>
       </div>
-      {qrCode && !valid && (
-        <QrCodeGenerator handleValue={handleValue}></QrCodeGenerator>
-      )}
-    </Form>
+      {modal && <ChatComponent handleModal={handleModal}></ChatComponent>}
+    </>
   );
 };
 export default CheckoutForm;

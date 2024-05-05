@@ -34,8 +34,8 @@ const OrdersList = () => {
                   <td>{name}</td>
                   <td>{address}</td>
                   <td>{numItemsInCart}</td>
-                  <td>{orderTotal}</td>
-                  <td className='hidden sm:block'>{date}</td>
+                  <td>&#8377; {orderTotal.split("$")[1]}</td>
+                  <td className="hidden sm:block">{date}</td>
                 </tr>
               );
             })}

@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import ChatComponent from '../src/components/ChatComponent'
 import {
   About,
   Cart,
@@ -39,9 +40,9 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <HomeLayout />,
-  
+
     children: [
       {
         index: true,
@@ -50,46 +51,55 @@ const router = createBrowserRouter([
         loader: landingLoader(queryClient),
       },
       {
-        path: 'products',
+        path: "products",
         element: <Products />,
         errorElement: <ErrorElement />,
         loader: productsLoader(queryClient),
       },
       {
-        path: 'products/:id',
+        path: "products/:id",
         element: <SingleProduct />,
         errorElement: <ErrorElement />,
         loader: singleProductLoader(queryClient),
       },
       {
-        path: 'cart',
+        path: "cart",
         element: <Cart />,
       },
       {
-        path: 'about',
+        path: "about",
         element: <About />,
       },
       {
-        path: 'checkout',
+        path: "checkout",
         element: <Checkout />,
         loader: checkoutLoader(store),
         action: checkoutAction(store, queryClient),
       },
       {
-        path: 'orders',
+        path: "orders",
         element: <Orders />,
         loader: ordersLoader(store, queryClient),
+      },
+      {
+        path: "chat",
+        element: (
+          <>
+            {" "}
+           <ChatComponent></ChatComponent>
+          </>
+        ),
       },
     ],
   },
   {
-    path: '/login',
+    path: "/login",
     element: <Login />,
     errorElement: <Error />,
     action: loginAction(store),
   },
   {
-    path: '/register',
+    path: "/register",
     element: <Register />,
     errorElement: <Error />,
     action: registerAction,
