@@ -12,7 +12,7 @@ const ProductsGrid = () => {
         return (
           <Link
             key={product.id}
-            to={`/products/${product.id}`}
+            to={`/products/${product._id}`}
             className='card w-full shadow-xl hover:shadow-2xl transition duration-300'
           >
             <figure className='px-4 pt-4'>

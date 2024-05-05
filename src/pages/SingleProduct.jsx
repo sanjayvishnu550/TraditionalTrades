@@ -19,6 +19,8 @@ export const loader =
       singleProductQuery(params.id)
     );
 
+
+    sessionStorage.setItem('sellerId',response.data.data.sellerId);
     return { product: response.data.data };
   };
 

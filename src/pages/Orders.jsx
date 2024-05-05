@@ -8,14 +8,14 @@ import {
 } from '../components';
 
 const ordersQuery = (params, user) => {
+  
   return {
     queryKey: [
-      'orders',
       user.username,
       params.page ? parseInt(params.page) : 1,
     ],
     queryFn: () =>
-      customFetch.get('/orders', {
+      customFetch.get("https://strapi-store-server.onrender.com/api/orders", {
         params,
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -37,10 +37,12 @@ export const loader =
       ...new URL(request.url).searchParams.entries(),
     ]);
     try {
+      console.log(ordersQuery)
+
       const response = await queryClient.ensureQueryData(
         ordersQuery(params, user)
       );
-
+       
       return { orders: response.data.data, meta: response.data.meta };
     } catch (error) {
       console.log(error);
